@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Weather App - Prodigy Infotech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #007cf0, #00dfd8);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      width: 200px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      border: none;
+      background: #fff;
+      color: #007cf0;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .weather-info {
+      margin-top: 20px;
+      font-size: 1.1em;
+    }
+
+    .weather-info div {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Weather App 🌤</h1>
+    <input type="text" id="city" placeholder="Enter city name">
+    <button onclick="getWeather()">Get Weather</button>
+    <div class="weather-info" id="weatherInfo"></div>
+  </div>
+
+  <script>
+    async function getWeather() {
+      const city = document.getElementById("city").value;
+      const apiKey = "YOUR_API_KEY_HERE"; // 🔁 Replace with your OpenWeatherMap API key
+      const url = https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("City not found");
+        const data = await response.json();
+
+        document.getElementById("weatherInfo").innerHTML = `
+          <div><strong>Location:</strong> ${data.name}, ${data.sys.country}</div>
+          <div><strong>Temperature:</strong> ${data.main.temp} °C</div>
+          <div><strong>Weather:</strong> ${data.weather[0].main} - ${data.weather[0].description}</div>
+          <div><strong>Humidity:</strong> ${data.main.humidity}%</div>
+        `;
+      } catch (error) {
+        document.getElementById("weatherInfo").innerHTML = <div style="color: yellow;">${error.message}</div>;
+      }
+    }
+  </script>
+</body>
+</html>
